@@ -45,9 +45,14 @@
                 str+= '     <h5 class="card-title">'+reply.text+'</h5>';
                 str+= '     <h6 class="card-subtitle mb-2 text-muted">'+reply.replyer+'</h6>';
                 str+= '     <p class="card-text">'+ formatTime(reply.regDate)+'</p>';
-               
+                str+= '     </div>';
             })
-        })
+            listGroup.html(str);
+        });
+
+        $(".replyCount").click(function(){
+            loadJSONData();
+        }) //end click
     }
 </script>
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
