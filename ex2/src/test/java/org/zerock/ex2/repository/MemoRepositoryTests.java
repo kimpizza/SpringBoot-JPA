@@ -2,14 +2,22 @@ package org.zerock.ex2.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
+import org.springframework.test.annotation.Commit;
 import org.zerock.ex2.entity.Memo;
 
 import javax.sound.midi.Soundbank;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -96,4 +104,42 @@ public class MemoRepositoryTests {
             System.out.println(memo);
         }
     }
+    @Test
+    void testSort(){
+        Sort sort1 = Sort.by("mno").descending(); //정렬기준
+        Sort sort2 = Sort.by("memoText").ascending();
+        Sort sortAll = sort1.and(sort2);
+        Pageable pageable = PageRequest.of(0,10, sortAll);
+
+        Page<Memo> result = memoRepository.findAll(pageable);
+
+        result.get().forEach(memo -> {
+            System.out.println(memo);
+        });
+    }
+
+    @Test
+    void testQueryMethods(){
+        List<Memo> list = memoRepository.findByMnoBetweenOrderByMnoDesc(70L, 80L);
+
+        for(Memo memo : list){
+            System.out.println(memo);
+        }
+    }
+
+    @Test
+    void testQueryMethodWithPageable(){
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Memo> result = memoRepository.findByMnoBetween(10L, 20L, pageable);
+        result.get().forEach(memo -> System.out.println(memo));
+    }
+
+    @Commit
+    @Transactional
+    @Test
+    void testDeleteQueryMethods(){
+        memoRepository.deleteMemoByMnoLessThan(10L);
+    }
+
 }
