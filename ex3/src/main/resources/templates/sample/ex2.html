@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.orh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .target{
+        background-color: red;
+    }
+</style>
+<body>
+    <h4>if문</h4>
+    <ul>
+        <li th:each="dto, state : ${list}" th:if="${dto.sno % 5 == 0}">
+            [[${dto}]]
+        </li>
+    </ul>
+
+    <h4>if~else문</h4>
+    <ul>
+        <li th:each="dto, state : ${list}">
+            <span th:if="${dto.sno % 5 == 0}" th:text="${'-----------------'+dto.sno}"></span>
+            <span th:unless="${dto.sno % 5 == 0}" th:text="${dto.first}"></span>
+        </li>
+    </ul>
+
+    <h4>삼항 연산자</h4>
+    <ul>
+        <li th:each="dto, state : ${list}" th:text="${dto.sno % 5 == 0}? ${dto.sno}:${dto.first}">
+        </li>
+    </ul>
+
+    <h4>조건에 따른 스타일 적용</h4>
+    <ul>
+        <li th:each="dto, state : ${list}" th:class="${dto.sno % 5 == 0}?  'target'" th:text="${dto}">
+
+        </li>
+    </ul>
+
+    <ul>
+        <th:block th:each="dto: ${list}">
+            <li th:text="${dto.sno % 5 == 0}? ${dto.sno}: ${dto.first}"></li>
+        </th:block>
+    </ul>
+</body>
+</html>
