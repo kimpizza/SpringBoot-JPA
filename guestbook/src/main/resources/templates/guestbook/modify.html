@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--jquery문 추가-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <th:block th:replace="~{/layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4">GuestBook Modify Page</h1>
+
         <form action="/guestbook/modify" method="post">
-        <div class="form-group">
+            <!--페이지번호-->
+            <input type="hidden" name="page" th:value="#{requestDTO.page}">
+            <div class="form-group">
             <label >Gno</label>
             <input type="text" class="form-control" name="gno"
             th:value="${dto.gno}" readonly>
@@ -37,9 +46,30 @@
 
         </form>
 
-        <button type="button" class="btn btn-primary">Modify</button>
-        <button type="button" class="btn btn-info">List</button>
-        <button type="button" class="btn btn-danger">Remove</button>
+        <button type="button" class="btn btn-primary modifyBtn">Modify</button>
+        <button type="button" class="btn btn-info listBtn">List</button>
+        <button type="button" class="btn btn-danger removeBtn">Remove</button>
+
+        <script>
+            var actionForm = $("form"); //form태그 객체
+            $(".removeBtn").click(function(){
+                actionForm
+                    .attr("action","/guestbook/remove")
+                    .attr("method", "post");
+                actionForm.submit();
+            });
+
+            $(".modifyBtn").click(function(){
+                if(!confirm("수정하시겠습니까?")){
+                    return ;
+                }
+
+                actionForm
+                    .attr("action", "/guestbook/modify")
+                    .attr("method", "post")
+                    .submit();
+            });
+        </script>
 
     </th:block>
 </th:block>
