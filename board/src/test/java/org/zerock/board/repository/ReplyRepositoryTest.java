@@ -32,7 +32,7 @@ class ReplyRepositoryTest {
         });
     }
     @Test
-    void reaadReply1(){
+    void readReply1(){
         Optional<Reply> result = replyRepository.findById(1L);
 
         Reply reply = result.get();
