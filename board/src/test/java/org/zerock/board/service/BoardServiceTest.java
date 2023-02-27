@@ -3,14 +3,12 @@ package org.zerock.board.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.dto.PageResultDTO;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class BoardServiceTests {
+class BoardServiceTest {
     @Autowired
     private BoardService boardService;
 
