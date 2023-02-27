@@ -7,53 +7,43 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script th:inline="javascript">
-    $(document).ready(function(){
-        var bno = [[${dto.bno}]];
-        var listGroup = $(".replyList");
+    $(document).ready(function() {
+    var bno = [[${dto.bno}]];
 
-        $(".replyCount").click(function(){
-            $.getJSON('/replies/board/'+bno, function(arr){
-                console.log(arr);
-            }) //end getJSON
-        }) //end click
-    });
-
-    //댓글 추가 영역
     var listGroup = $(".replyList");
 
-    //날짜 처리를 위한 함수
-    function formatTime(str){
+    //날짜 처리
+    function formatTime(str) {
         var date = new Date(str);
 
-        return date.getFullYear() + '/' +
-            (date.getMonth()+1) + '/' +
-            date.getDate() + ' ' +
-            date.getHours() + ':' +
-            date.getMinutes();
+        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
     }
 
-    //특정 게시글의 댓글을 처리하는 함수
-    function loadJSONDate(){
-        $.getJSON('/replies/board/' +bno, function(arr){
+    //댓글처리
+    function loadJSONData() {
+        $.getJSON('/replies/board/'+bno, function(arr) {
             console.log(arr);
-            var str = "";
+
+            var str="";
 
             $('.replyCount').html(" Reply Count  " + arr.length);
-            $.each(arr, function(idx, reply){
+
+            $.each(arr, function(idx, reply) {
                 console.log(reply);
-                str+= '     <div class="card-body" data-rno="'+reply.rno+'"><b>'+reply.rno+'</b>';
-                str+= '     <h5 class="card-title">'+reply.text+'</h5>';
-                str+= '     <h6 class="card-subtitle mb-2 text-muted">'+reply.replyer+'</h6>';
-                str+= '     <p class="card-text">'+ formatTime(reply.regDate)+'</p>';
-                str+= '     </div>';
+
+                str += '   <div class = "card-body" data-rno = "'+reply.rno+'"><b>'+reply.rno +'</b>';
+                str += '   <h5 class = "card-title">'+reply.text+'</h5>';
+                str += '   <h6 class = "card-subtitle mb-2 text-muted">'+reply.replier+'</h6>';
+                str += '   <p class = "card-text">'+ formatTime(reply.regDate)+'</p>';
+                str += '  </div>';
             })
             listGroup.html(str);
         });
-
-        $(".replyCount").click(function(){
-            loadJSONData();
-        }) //end click
     }
+    $(".replyCount").click(function() {
+        loadJSONData();
+    })
+});
 </script>
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
@@ -99,7 +89,9 @@
                 <h5>
                     <span class="badge badge-secondary replyCount" style="background-color:red"> Reply Count [[${dto.replyCount}]]</span>
                 </h5>
-                <div class="list-group replyList"></div>
+                <div class="list-group replyList">
+
+                </div>
             </div>
         </div>
     </th:block>
