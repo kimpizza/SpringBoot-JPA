@@ -19,47 +19,47 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class MovieRepositoryTest {
-    @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private MovieImageRepository imageRepository;
+public class MovieRepositoryTest {
 
-    // 영화 생성
-    @Commit
-    @Transactional
-    @Test
-    void insertMovies(){
-        IntStream.rangeClosed(1,100).forEach(i->{
-            Movie movie = Movie.builder()
-                    .title("Movie..." + i)
-                    .build();
+        @Autowired
+        private MovieImageRepository imageRepository;
 
-            System.out.println("-------------------------");
+        @Autowired
+        private MovieRepository movieRepository;
 
-            movieRepository.save(movie);
-            int count = (int)(Math.random()*5)+1; // 1, 2, 3, 4점 중 랜덤
+        @Commit
+        @Transactional
+        @Test
+        public void insertMovies() {
+            IntStream.rangeClosed(1, 100).forEach(i -> {
+                Movie movie = Movie.builder().title("Movie....." + i).build();
 
-            for(int j = 0; j<count; j++){
-                MovieImage movieImage = MovieImage.builder()
-                        .uuid(UUID.randomUUID().toString())
-                        .movie(movie)
-                        .imgName("test" + j + ".jpg").build();
-                imageRepository.save(movieImage);
-            }
-            System.out.println("=========================");
-        });
-    }
+                System.out.println("---------------------------");
 
-    //영화 목록 조회
-    @Test
-    void testListPage() {
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
-        Page<Object[]> result = movieRepository.getListPage(pageRequest);
+                movieRepository.save(movie);
 
-        for (Object[] objects : result.getContent()) {
-            System.out.println(Arrays.toString(objects));
+                int count = (int) (Math.random() * 5) + 1;
+
+                for (int j = 0; j < count; j++) {
+                    MovieImage movieImage = MovieImage.builder()
+                            .uuid(UUID.randomUUID().toString())
+                            .movie(movie)
+                            .imgName("test" + j + ".jpg").build();
+
+                    imageRepository.save(movieImage);
+                }
+                System.out.println("---------------------------");
+            });
         }
 
+        @Test
+        public void testListPage() {
+            PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
+
+            Page<Object[]> result = movieRepository.getListPage(pageRequest);
+
+            for (Object[] objects : result.getContent()) {
+                System.out.println(Arrays.toString(objects));
+            }
+        }
     }
-}

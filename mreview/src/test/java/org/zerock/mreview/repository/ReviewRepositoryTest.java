@@ -9,33 +9,28 @@ import org.zerock.mreview.entity.Review;
 
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class ReviewRepositoryTest {
+public class ReviewRepositoryTest {
+
     @Autowired
     private ReviewRepository reviewRepository;
 
     @Test
-    void insertMovieReviews(){
-        //200개 등록
-        IntStream.rangeClosed(1,200).forEach(i->{
+    public void insertMovieReviews() {
+        IntStream.rangeClosed(1, 200).forEach(i -> {
+            Long mno = (long)(Math.random()*100)+1;
 
-            //영화 번호
-            Long mno = (long) (Math.random() * 100) + 1;
-
-            //리뷰어 번호
-            Long mid = ((long) (Math.random() * 100) + 1);
+            Long mid = ((long)(Math.random()*100)+1);
             Member member = Member.builder().mid(mid).build();
 
             Review movieReview = Review.builder()
                     .member(member)
                     .movie(Movie.builder().mno(mno).build())
-                    .grade((int) (Math.random() * 5) + 1)
+                    .grade((int)(Math.random()*5)+1)
                     .text("이 영화에 대한 느낌..." + i)
                     .build();
+
             reviewRepository.save(movieReview);
         });
     }
-
 }

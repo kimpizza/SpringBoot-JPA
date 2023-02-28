@@ -9,11 +9,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+
 @ToString(exclude = {"movie", "member"})
-public class Review extends BaseEntity {
+public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewnum;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
@@ -21,6 +24,6 @@ public class Review extends BaseEntity {
     private Member member;
 
     private int grade;
-    private String text;
 
+    private String text;
 }
