@@ -15,6 +15,7 @@ public interface BoardService {
     Long register(BoardDTO dto); //글작성
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO); //목록 처리
     BoardDTO get(Long bno); //글 번호 가져오기
+
     default Board dtoToEntity(BoardDTO dto){
         Member member = Member.builder().email(dto.getWriterEmail()).build();
 

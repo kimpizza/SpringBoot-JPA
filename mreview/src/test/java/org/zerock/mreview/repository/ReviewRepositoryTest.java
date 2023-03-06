@@ -27,7 +27,7 @@ public class ReviewRepositoryTest {
                     .member(member)
                     .movie(Movie.builder().mno(mno).build())
                     .grade((int)(Math.random()*5)+1)
-                    .text("이 영화에 대한 느낌..." + i)
+                    .text("이 영화에 대한 느낌..." + i+"점 맛이다.")
                     .build();
 
             reviewRepository.save(movieReview);
